@@ -1,0 +1,35 @@
+services:
+  praxismesh:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      PRAXISMESH_ENV: production
+      PRAXISMESH_DATA_DIR: /data
+      PRAXISMESH_DATABASE: /data/praxismesh.db
+      PRAXISMESH_WORKSPACE: /data/workspaces
+    volumes:
+      - praxismesh-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,noexec,nosuid
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    profiles: ["observability"]
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+volumes:
+  praxismesh-data:
+

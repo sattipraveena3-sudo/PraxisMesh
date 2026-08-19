@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: praxismesh-config
+data:
+  PRAXISMESH_ENV: production
+  PRAXISMESH_DATA_DIR: /data
+  PRAXISMESH_DATABASE: /data/praxismesh.db
+  PRAXISMESH_WORKSPACE: /data/workspaces
+  PRAXISMESH_PLANNER: deterministic
+  PRAXISMESH_ALLOW_HTTP: "false"
+  PRAXISMESH_MAX_STEPS: "20"
+

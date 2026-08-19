@@ -1,0 +1,15 @@
+[
+  {
+    "id": "research-launch",
+    "goal": "Create a verified execution brief for launching a trustworthy AI research project, including explicit safety, evaluation, and reproducibility requirements.",
+    "expected_terminal_status": "succeeded",
+    "requires_approval": true
+  },
+  {
+    "id": "concise-plan",
+    "goal": "Prepare a concise, evidence-backed rollout checklist for a new internal service.",
+    "expected_terminal_status": "succeeded",
+    "requires_approval": true
+  }
+]
+

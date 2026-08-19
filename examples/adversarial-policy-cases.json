@@ -1,0 +1,21 @@
+[
+  {
+    "tool": "artifact_write",
+    "arguments": {"path": "../../outside.txt", "content": "escape"},
+    "expected_effect": "deny",
+    "rule": "workspace-boundary"
+  },
+  {
+    "tool": "shell",
+    "arguments": {"command": "rm -rf /"},
+    "expected_effect": "deny",
+    "rule": "destructive-command"
+  },
+  {
+    "tool": "http_get",
+    "arguments": {"url": "https://169.254.169.254/latest/meta-data"},
+    "expected_effect": "deny",
+    "rule": "network-disabled"
+  }
+]
+

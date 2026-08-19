@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#090b13" />
+    <title>PraxisMesh — Verified Agent Operations</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="PraxisMesh home">
+        <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M10 14 24 6l14 8v20l-14 8-14-8Z" />
+          <path d="m10 14 14 9 14-9M24 23v19" />
+          <circle cx="24" cy="23" r="4" />
+        </svg>
+        <span><b>Praxis</b>Mesh</span>
+      </a>
+
+      <nav class="nav-list" aria-label="Main navigation">
+        <button class="nav-item active" data-scroll="control-room">
+          <span class="nav-glyph">⌁</span> Control room
+        </button>
+        <button class="nav-item" data-scroll="run-history">
+          <span class="nav-glyph">◫</span> Execution runs
+        </button>
+        <button class="nav-item" data-scroll="evidence-panel">
+          <span class="nav-glyph">◇</span> Evidence ledger
+        </button>
+        <a class="nav-item" href="/api/docs" target="_blank" rel="noreferrer">
+          <span class="nav-glyph">↗</span> API contract
+        </a>
+      </nav>
+
+      <div class="trust-card">
+        <div class="trust-orbit"><span></span></div>
+        <div>
+          <p>Trust kernel</p>
+          <strong id="integrity-label">Checking chain…</strong>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <span class="status-dot"></span>
+        <span>PraxisMesh v0.1</span>
+      </div>
+    </aside>
+
+    <main class="main-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Verified agent operations</p>
+          <h1>Control room</h1>
+        </div>
+        <div class="top-actions">
+          <span class="environment-pill"><i></i> Local sandbox</span>
+          <button class="icon-button" id="refresh-button" title="Refresh" aria-label="Refresh">↻</button>
+        </div>
+      </header>
+
+      <section class="kpi-grid" id="control-room">
+        <article class="kpi-card violet">
+          <div class="kpi-heading"><span>Total runs</span><i>⌁</i></div>
+          <strong id="metric-total">0</strong>
+          <small>Persistent orchestration records</small>
+        </article>
+        <article class="kpi-card mint">
+          <div class="kpi-heading"><span>Success rate</span><i>✓</i></div>
+          <strong id="metric-success">0%</strong>
+          <small>Across terminal executions</small>
+        </article>
+        <article class="kpi-card amber">
+          <div class="kpi-heading"><span>Approval queue</span><i>!</i></div>
+          <strong id="metric-approvals">0</strong>
+          <small>Human decisions required</small>
+        </article>
+        <article class="kpi-card blue">
+          <div class="kpi-heading"><span>Audit events</span><i>◇</i></div>
+          <strong id="metric-events">0</strong>
+          <small>Hash-chained evidence entries</small>
+        </article>
+      </section>
+
+      <section class="command-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Submit objective</p>
+            <h2>What should the system accomplish?</h2>
+          </div>
+          <span class="policy-badge">Policy enforcement on</span>
+        </div>
+        <form id="goal-form">
+          <textarea id="goal-input" maxlength="10000" required>Create a verified execution brief for launching a trustworthy AI research project, including explicit safety, evaluation, and reproducibility requirements.</textarea>
+          <div class="command-footer">
+            <div class="guardrail-list">
+              <span>✓ DAG validation</span>
+              <span>✓ Human approval</span>
+              <span>✓ Output verification</span>
+            </div>
+            <button class="primary-button" type="submit" id="launch-button">
+              <span>Launch verified run</span><b>→</b>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <div class="workspace-grid">
+        <section class="panel runs-panel" id="run-history">
+          <div class="panel-header">
+            <div><p class="eyebrow">Run history</p><h2>Executions</h2></div>
+            <span class="count-badge" id="run-count">0</span>
+          </div>
+          <div class="run-list" id="run-list">
+            <div class="empty-state">No runs yet. Launch the first verified objective.</div>
+          </div>
+        </section>
+
+        <section class="panel detail-panel">
+          <div id="run-detail-empty" class="detail-empty">
+            <div class="empty-mesh">⌬</div>
+            <h2>Select an execution</h2>
+            <p>Inspect its plan, policy decisions, approval gates and verified evidence.</p>
+          </div>
+          <div id="run-detail" hidden>
+            <div class="panel-header detail-header">
+              <div>
+                <p class="eyebrow" id="detail-run-id">Run</p>
+                <h2 id="detail-goal">Objective</h2>
+              </div>
+              <span class="status-chip" id="detail-status">created</span>
+            </div>
+
+            <div class="approval-banner" id="approval-banner" hidden>
+              <div class="approval-icon">!</div>
+              <div class="approval-copy">
+                <p>Human decision required</p>
+                <strong id="approval-title">Persistent action</strong>
+                <small id="approval-reason"></small>
+              </div>
+              <div class="approval-actions">
+                <button class="secondary-button danger" id="deny-button">Deny</button>
+                <button class="secondary-button approve" id="approve-button">Approve & resume</button>
+              </div>
+            </div>
+
+            <div class="subsection-header">
+              <div><span>Execution graph</span><small id="plan-rationale"></small></div>
+              <button class="text-button" id="resume-button" hidden>Resume run →</button>
+            </div>
+            <div class="step-flow" id="step-flow"></div>
+
+            <div class="artifacts" id="artifact-section" hidden>
+              <div class="subsection-header"><div><span>Verified artifacts</span></div></div>
+              <div id="artifact-list"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel evidence-panel" id="evidence-panel">
+        <div class="panel-header">
+          <div><p class="eyebrow">Tamper-evident trace</p><h2>Evidence ledger</h2></div>
+          <span class="chain-pill"><i></i> SHA-256 chain</span>
+        </div>
+        <div class="event-stream" id="event-stream">
+          <div class="empty-state">Select a run to inspect its cryptographic evidence trail.</div>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
+
