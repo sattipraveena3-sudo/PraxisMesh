@@ -34,7 +34,9 @@ class OrchestratorIntegrationTests(unittest.TestCase):
             completed = orchestrator.execute_run(run.id)
 
             self.assertEqual(completed.status, RunStatus.SUCCEEDED)
-            self.assertTrue(all(step.status == StepStatus.SUCCEEDED for step in completed.plan.steps))
+            self.assertTrue(
+                all(step.status == StepStatus.SUCCEEDED for step in completed.plan.steps)
+            )
             artifact = Path(completed.plan.steps[3].output["path"])
             self.assertTrue(artifact.is_file())
             self.assertIn("Safety contract", artifact.read_text(encoding="utf-8"))

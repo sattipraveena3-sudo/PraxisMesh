@@ -186,4 +186,3 @@ class RunRecord:
 
     def as_json(self) -> str:
         return json.dumps(self.to_dict(), separators=(",", ":"), sort_keys=True)
-

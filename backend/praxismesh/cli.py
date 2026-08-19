@@ -7,7 +7,6 @@ from typing import Sequence
 from .domain import RunStatus
 from .service import build_orchestrator
 
-
 DEFAULT_GOAL = (
     "Create a verified execution brief for launching a trustworthy AI research project, "
     "including explicit safety, evaluation, and reproducibility requirements."
@@ -53,7 +52,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     demo.add_argument("--goal", default=DEFAULT_GOAL)
     demo.add_argument("--auto-approve", action="store_true")
 
-    verify = subparsers.add_parser("verify-ledger", help="Verify the audit hash chain")
+    subparsers.add_parser("verify-ledger", help="Verify the audit hash chain")
 
     serve = subparsers.add_parser("serve", help="Start the API and dashboard")
     serve.add_argument("--host", default=None)
@@ -84,4 +83,3 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

@@ -118,7 +118,7 @@ class OpenAIPlanner(Planner):
 
     def __init__(self, model: str, tools: ToolRegistry) -> None:
         try:
-            from openai import OpenAI
+            from openai import OpenAI  # type: ignore[import-not-found]
         except ImportError as exc:
             raise RuntimeError("Install PraxisMesh with the 'openai' extra") from exc
         self.model = model
@@ -150,13 +150,10 @@ class OpenAIPlanner(Planner):
         if parsed is None:
             raise RuntimeError("The planner returned no structured plan")
         steps = [PlanStep(**step.model_dump()) for step in parsed.steps]
-        return ExecutionPlan(
-            id=new_id("plan"), goal=goal, rationale=parsed.rationale, steps=steps
-        )
+        return ExecutionPlan(id=new_id("plan"), goal=goal, rationale=parsed.rationale, steps=steps)
 
 
 def build_planner(settings: Settings, tools: ToolRegistry) -> Planner:
     if settings.planner == "openai" and os.getenv("OPENAI_API_KEY"):
         return OpenAIPlanner(settings.openai_model, tools)
     return DeterministicPlanner()
-

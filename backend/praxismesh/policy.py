@@ -3,7 +3,6 @@ from __future__ import annotations
 import json
 import re
 from dataclasses import dataclass
-from typing import Any
 from urllib.parse import urlparse
 
 from .config import Settings
@@ -127,4 +126,3 @@ class PolicyEngine:
         reason: str,
     ) -> PolicyDecision:
         return PolicyDecision(effect=effect, risk=risk, reasons=[reason], rule_ids=[rule_id])
-

@@ -26,4 +26,3 @@ def build_orchestrator() -> Orchestrator:
         policy=PolicyEngine(settings),
         verifiers=VerifierRegistry(),
     )
-

@@ -43,4 +43,3 @@ def orchestrator_for(root: Path) -> Orchestrator:
         policy=PolicyEngine(settings),
         verifiers=VerifierRegistry(),
     )
-

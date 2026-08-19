@@ -3,12 +3,13 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Annotated, Literal
 
-from fastapi import BackgroundTasks, FastAPI, HTTPException, Path as ApiPath, Query
+from fastapi import BackgroundTasks, FastAPI, HTTPException, Query, Request
+from fastapi import Path as ApiPath
 from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from .domain import RunStatus
+from .domain import RunRecord, RunStatus
 from .orchestrator import InvalidRunState, RunNotFound
 from .service import build_orchestrator
 
@@ -37,12 +38,12 @@ orchestrator = build_orchestrator()
 
 
 @app.exception_handler(RunNotFound)
-async def handle_missing_run(_, exc: RunNotFound) -> JSONResponse:
+async def handle_missing_run(_: Request, exc: RunNotFound) -> JSONResponse:
     return JSONResponse(status_code=404, content={"detail": f"Run not found: {exc.args[0]}"})
 
 
 @app.exception_handler(InvalidRunState)
-async def handle_invalid_state(_, exc: InvalidRunState) -> JSONResponse:
+async def handle_invalid_state(_: Request, exc: InvalidRunState) -> JSONResponse:
     return JSONResponse(status_code=409, content={"detail": str(exc)})
 
 
@@ -193,8 +194,8 @@ def prometheus_metrics() -> str:
     return "\n".join(lines) + "\n"
 
 
-def _run_payload(run) -> dict[str, object]:
-    payload = run.to_dict()
+def _run_payload(run: RunRecord) -> dict[str, object]:
+    payload: dict[str, object] = dict(run.to_dict())
     payload["approvals"] = [item.to_dict() for item in orchestrator.approvals(run.id)]
     return payload
 
