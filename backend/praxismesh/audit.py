@@ -9,7 +9,6 @@ from typing import Any, Iterable
 
 from .domain import new_id, utc_now
 
-
 GENESIS_HASH = "0" * 64
 
 
@@ -53,17 +52,29 @@ class HashChainLedger:
         with self._lock:
             events = list(self._read_events())
             previous_hash = events[-1].event_hash if events else GENESIS_HASH
-            base = {
-                "id": new_id("evt"),
-                "sequence": len(events) + 1,
+            event_id = new_id("evt")
+            sequence = len(events) + 1
+            created_at = utc_now()
+            base: dict[str, Any] = {
+                "id": event_id,
+                "sequence": sequence,
                 "run_id": run_id,
                 "event_type": event_type,
                 "payload": payload,
                 "previous_hash": previous_hash,
-                "created_at": utc_now(),
+                "created_at": created_at,
             }
             event_hash = hashlib.sha256(_canonical(base)).hexdigest()
-            event = AuditEvent(event_hash=event_hash, **base)
+            event = AuditEvent(
+                id=event_id,
+                sequence=sequence,
+                run_id=run_id,
+                event_type=event_type,
+                payload=payload,
+                previous_hash=previous_hash,
+                event_hash=event_hash,
+                created_at=created_at,
+            )
             with self.path.open("a", encoding="utf-8") as handle:
                 handle.write(json.dumps(event.to_dict(), sort_keys=True, default=str) + "\n")
                 handle.flush()
@@ -114,4 +125,3 @@ class HashChainLedger:
                 except (json.JSONDecodeError, TypeError) as exc:
                     raise ValueError(f"Invalid audit event at line {line_number}") from exc
         return events
-

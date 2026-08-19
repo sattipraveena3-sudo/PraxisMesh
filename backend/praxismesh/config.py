@@ -30,12 +30,8 @@ class Settings:
     @classmethod
     def from_env(cls) -> "Settings":
         data_dir = Path(os.getenv("PRAXISMESH_DATA_DIR", ".praxismesh")).resolve()
-        database = Path(
-            os.getenv("PRAXISMESH_DATABASE", str(data_dir / "praxismesh.db"))
-        ).resolve()
-        workspace = Path(
-            os.getenv("PRAXISMESH_WORKSPACE", str(data_dir / "workspaces"))
-        ).resolve()
+        database = Path(os.getenv("PRAXISMESH_DATABASE", str(data_dir / "praxismesh.db"))).resolve()
+        workspace = Path(os.getenv("PRAXISMESH_WORKSPACE", str(data_dir / "workspaces"))).resolve()
         allowlist = tuple(
             item.strip().lower()
             for item in os.getenv("PRAXISMESH_HTTP_ALLOWLIST", "api.github.com").split(",")
@@ -52,9 +48,7 @@ class Settings:
             openai_model=os.getenv("PRAXISMESH_OPENAI_MODEL", "gpt-5.6"),
             allow_http=_as_bool(os.getenv("PRAXISMESH_ALLOW_HTTP")),
             http_allowlist=allowlist,
-            auto_approve_low_risk=_as_bool(
-                os.getenv("PRAXISMESH_AUTO_APPROVE_LOW_RISK"), True
-            ),
+            auto_approve_low_risk=_as_bool(os.getenv("PRAXISMESH_AUTO_APPROVE_LOW_RISK"), True),
             max_steps=int(os.getenv("PRAXISMESH_MAX_STEPS", "20")),
             tool_timeout_seconds=int(os.getenv("PRAXISMESH_TOOL_TIMEOUT_SECONDS", "20")),
         )
@@ -63,4 +57,3 @@ class Settings:
         self.data_dir.mkdir(parents=True, exist_ok=True)
         self.database_path.parent.mkdir(parents=True, exist_ok=True)
         self.workspace_root.mkdir(parents=True, exist_ok=True)
-

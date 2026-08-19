@@ -150,7 +150,9 @@ class Repository:
             ).fetchone()
         return ApprovalRecord.from_dict(json.loads(row["payload"])) if row else None
 
-    def list_approvals(self, run_id: str | None = None, status: str | None = None) -> list[ApprovalRecord]:
+    def list_approvals(
+        self, run_id: str | None = None, status: str | None = None
+    ) -> list[ApprovalRecord]:
         clauses: list[str] = []
         values: list[Any] = []
         if run_id:

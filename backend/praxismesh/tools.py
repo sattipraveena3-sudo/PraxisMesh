@@ -46,8 +46,29 @@ class TextAnalyzeTool:
     name = "text_analyze"
     description = "Compute deterministic text features for planning and verification."
     STOP_WORDS = {
-        "a", "an", "and", "are", "as", "at", "be", "by", "for", "from", "in", "is",
-        "it", "of", "on", "or", "that", "the", "this", "to", "with", "we", "you",
+        "a",
+        "an",
+        "and",
+        "are",
+        "as",
+        "at",
+        "be",
+        "by",
+        "for",
+        "from",
+        "in",
+        "is",
+        "it",
+        "of",
+        "on",
+        "or",
+        "that",
+        "the",
+        "this",
+        "to",
+        "with",
+        "we",
+        "you",
     }
 
     def execute(self, arguments: dict[str, Any], context: ToolContext) -> dict[str, Any]:
@@ -195,4 +216,3 @@ class ToolRegistry:
         except KeyError as exc:
             raise ToolFailure(f"unknown tool: {name}") from exc
         return tool.execute(arguments, context)
-

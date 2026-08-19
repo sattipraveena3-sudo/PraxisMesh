@@ -39,9 +39,7 @@ class PolicyEngineTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             engine = PolicyEngine(settings_for(Path(directory)))
             escape = engine.evaluate(
-                PlanStep(
-                    "s1", "Write", "escape", "artifact_write", {"path": "../../outside.txt"}
-                )
+                PlanStep("s1", "Write", "escape", "artifact_write", {"path": "../../outside.txt"})
             )
             shell = engine.evaluate(
                 PlanStep("s2", "Delete", "danger", "shell", {"command": "rm -rf /"})
@@ -53,4 +51,3 @@ class PolicyEngineTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

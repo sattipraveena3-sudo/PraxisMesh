@@ -4,4 +4,3 @@ from .domain import RunStatus, StepStatus
 
 __all__ = ["RunStatus", "StepStatus"]
 __version__ = "0.1.0"
-

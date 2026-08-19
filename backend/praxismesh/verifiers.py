@@ -106,4 +106,3 @@ class VerifierRegistry:
         except KeyError as exc:
             raise ValueError(f"unknown verifier: {name}") from exc
         return verifier(output, config)
-
